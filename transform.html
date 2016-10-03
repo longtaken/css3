@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>css3-transform</title>
+	<style>
+	*{
+		margin:0;
+		padding:0;
+	}
+	#main{
+		width: 90%;
+		margin:0 auto;
+		margin-top:20px;
+	}
+	.mainSub{
+		margin-bottom: 40px;
+		border-bottom: 1px solid;
+		padding:20px;
+		min-height: 150px;
+	}
+	h2{
+		margin-bottom: 10px;
+	}
+
+	/*rotate*/
+	.rotate{background-color: gray;}
+	.rotateSub{
+		width: 50px;
+		height: 50px;
+		background: orange;
+		transform:rotate(30deg);
+	}
+	
+	/*origin*/
+	.origin{background-color: gray;}
+	.originSub{
+		width: 50px;
+		height: 50px;
+		background-color: orange;
+		transform: rotate(30deg);
+		transform-origin:100% 100%;
+	}
+
+	/*translate*/
+	.translate div{
+		width: 30px;
+		height: 30px;
+	}
+	.translateXY{
+		transform:translate(60px,60px);
+		background: orange;
+	}
+	.translateX{
+		transform:translateX(60px);
+		background: red;
+	}
+	.translateY{
+		transform:translateY(30px);
+		background: blue;
+	}
+
+	/*scale*/
+	.scale div{
+		width: 30px;
+		height: 30px;
+		margin:20px;
+	}
+	.scaleXY{
+		transform:scale(2,2);
+		background: orange;
+	}
+	.scaleX{
+		transform:scaleX(2);
+		background: red;
+	}
+	.scaleY{
+		transform:scaleY(2);
+		background: blue;
+	}
+
+	/*skew*/
+	.skew div{
+		width: 30px;
+		height: 30px;
+		margin:20px;
+	}
+	.skewXY{
+		transform:skew(30deg,10deg);
+		background: orange;
+	}
+	.skewX{
+		transform:skewX(30deg);
+		background: red;
+	}
+	.skewY{
+		transform:skewY(10deg);
+		background: blue;
+	}
+
+	/*matrix*/
+	.matrixSub{
+		width: 50px;
+		height: 50px;
+		background-color: orange;
+		transform: matrix(1, 0, 0, 1, 30, 30);
+	}
+
+
+	</style>
+</head>
+<body>
+	<div id="main">
+		<div class="rotate mainSub">
+			<h2>rotate-旋转</h2>
+			<div class="rotateSub">transform:rotate(30deg)</div>
+		</div>
+		<div class="origin mainSub">
+			<h2>改变元素基点transform-origin</h2>
+			<div class="originSub">transform-origin(100%,100%)</div>
+		</div>
+		<div class="translate mainSub">
+			<h2>translate-移动</h2>
+			<div class="translateXY">transform:translate(60px,60px)</div>
+			<div class="translateX">transform:translateX(60px)</div>
+			<div class="translateY">transform:translateY(30px)</div>
+		</div>
+		<div class="scale mainSub">
+			<h2>scale-缩放</h2>
+			<div class="scaleXY">transform:scale(2,2);</div>
+			<div class="scaleX">transform:scaleX(2);</div>
+			<div class="scaleY">transform:scaleY(2);</div>
+		</div>
+		<div class="skew mainSub">
+			<h2>skew-扭曲</h2>
+			<div class="skewXY">transform:skew(30deg,10deg)</div>
+			<div class="skewX">transform:skewX(30deg)</div>
+			<div class="skewY">transform:skewY(10deg)</div>
+		</div>
+		<div class="matrix mainSub">
+			<h2>matrix-矩阵(下面等同于translate(60px,60px))</h2>
+			<div class="matrixSub">transform: matrix(1, 0, 0, 1, 60, 60)</div>
+		</div>
+	</div>
+</body>
+</html>
