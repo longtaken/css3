@@ -144,8 +144,9 @@
 	</div>
 
 	<script>
-	var oCli=document.querySelector(".click-btn");
-	var oAn=document.querySelector(".box");
+        "use strict";
+	const oCli=document.querySelector(".click-btn"),
+		oAn=document.querySelector(".box");
 	oCli.onclick=function(){
 		if(!oAn.classList.contains("round")){
 			oAn.classList.add("round");
