@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>sector</title>
+	<style>
+	*{
+		margin:0;
+		padding:0;
+	}
+
+	#wrap{
+		width:90%;
+		height: 500px;
+		position: relative;
+		margin:10px auto;
+		background-color: #666;
+	}
+
+	.sector{
+		position: absolute;
+		top: 50px;
+		left: 50px;
+	}
+
+	.leftTop{
+		width:0;
+		height:0;
+		position:absolute;
+		top:0;
+		left:0;
+		border-radius:100px;
+		border-width:100px;
+		border-style:solid;
+		border-color:#eee transparent transparent transparent;
+		line-height:99em;
+		overflow:hidden;
+		transform: rotate(-45deg);
+		-webkit-transform: rotate(-45deg);
+	}
+	.leftBottom{
+		width:0;
+		height:0;
+		position:absolute;
+		top:0;
+		left:0;
+		border-radius:100px;
+		border-width:100px;
+		border-style:solid;
+		border-color:#eee transparent transparent transparent;
+		line-height:99em;
+		overflow:hidden;
+		transform: rotate(-135deg);
+		-webkit-transform: rotate(-135deg);
+	}
+	.leftBottomMove{
+		-webkit-animation: leftBottom 1s linear 0s 1 alternate;
+        animation:         leftBottom 1s linear 0s 1 alternate;
+	}
+
+	.rightTop{
+		width:0;
+		height:0;
+		position:absolute;
+		top:0;
+		left:0;
+		border-radius:100px;
+		border-width:100px;
+		border-style:solid;
+		border-color:#eee transparent transparent transparent;
+		line-height:99em;
+		overflow:hidden;
+		transform: rotate(-225deg);
+		-webkit-transform: rotate(-225deg);
+
+		display: none;
+	}
+	.rightTopMove{
+		-webkit-animation: rightTop 1.2s linear 0s 1 alternate;
+        animation:         rightTop 1.2s linear 0s 1 alternate;
+	}
+
+	.rightBottom{
+		width:0;
+		height:0;
+		position:absolute;
+		top:0;
+		left:0;
+		border-radius:100px;
+		border-width:100px;
+		border-style:solid;
+		border-color:#eee transparent transparent transparent;
+		line-height:99em;
+		overflow:hidden;
+		transform: rotate(-315deg);
+		-webkit-transform: rotate(-315deg);
+
+		display: none;
+	}
+	.rightBottomMove{
+		-webkit-animation: rightBottom 1.8s linear 0s 1 alternate;
+        animation:         rightBottom 1.8s linear 0s 1 alternate;
+	}
+
+	@-webkit-keyframes "leftBottom" {
+		0% {
+			transform: rotate(-45deg);
+			-webkit-transform: rotate(-45deg);
+		}
+		100% {
+			transform: rotate(-135deg);
+			-webkit-transform: rotate(-135deg);
+		}
+	}
+
+	@-webkit-keyframes "rightTop" {
+		0% {
+			transform: rotate(-135deg);
+			-webkit-transform: rotate(-135deg);
+		}
+		100% {
+			transform: rotate(-225deg);
+			-webkit-transform: rotate(-225deg);
+		}
+	}
+
+	@-webkit-keyframes "rightBottom" {
+		0% {
+			transform: rotate(-225deg);
+			-webkit-transform: rotate(-225deg);
+		}
+		100% {
+			transform: rotate(-315deg);
+			-webkit-transform: rotate(-315deg);
+		}
+	}
+
+	.ring{
+		position: absolute;
+	    top: 35px;
+	    left: 35px;
+	    width: 220px;
+	    height: 220px;
+	    border: 5px solid #fff;
+	    border-radius: 50%;
+	}
+	</style>
+</head>
+<body>
+	<div id="wrap">
+		<div class="sector">
+			<div class="leftTop"></div>
+			<div class="leftBottom"></div>
+			<div class="rightTop"></div>
+			<div class="rightBottom"></div>
+		</div>
+		<div class="ring"></div>
+	</div>
+
+	<script>
+	(function(document){
+		var sectorMove = {
+			init: function(){
+				if (typeof(Promise) === 'function') {
+					this.setMoveInit();
+				}else{
+					alert('请更换浏览器再进行浏览。')
+				}
+			},
+			setMoveInit: function(){
+				var oLeftTop = this.getEl('.leftTop');
+				var leftBottom = this.getEl('.leftBottom');
+				var rightTop = this.getEl('.rightTop');
+				var rightBottom = this.getEl('.rightBottom');
+
+				this.moveProcess(leftBottom, rightTop, rightBottom);
+			},
+			moveProcess: function(leftBottom, rightTop, rightBottom){
+				//1
+				leftBottom.classList.add('leftBottomMove');
+
+				var timerOnePromise = new Promise(function(resolve, reject) {
+					this.moveProcessOne(resolve,rightTop);
+				}.bind(this));
+
+				timerOnePromise.then(function(){
+					this.moveProcessTwo(rightBottom);
+				}.bind(this));
+
+			},
+			moveProcessOne: function(resolve,rightTop){
+				var timer = setTimeout(function(){
+					//2
+					rightTop.style.display = 'block';
+					rightTop.classList.add('rightTopMove');
+					clearTimeout(timer);
+				
+					resolve();
+				},1000);
+			},
+			moveProcessTwo: function(rightBottom){
+				var timer = setTimeout(function(){
+					//3
+					rightBottom.style.display = 'block';
+					rightBottom.classList.add('rightBottomMove');
+					clearTimeout(timer);
+				},1200);
+			},
+			getEl: function(el){
+				return document.querySelector(el);
+			}
+		};
+		sectorMove.init();
+	})(window.document);
+	</script>
+</body>
+</html>
