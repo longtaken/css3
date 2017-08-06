@@ -38,6 +38,10 @@
 		transform: rotate(-45deg);
 		-webkit-transform: rotate(-45deg);
 	}
+	.leftTopEnd{
+		border-color:#eee;
+	}
+
 	.leftBottom{
 		width:0;
 		height:0;
@@ -157,30 +161,76 @@
 		<div class="ring"></div>
 	</div>
 
+	<input type="button" class="resetBtn" value="reset">
+	<input type="button" class="startBtn" value="start">
+	<input type="button" class="endBtn" value="end">
+	
 	<script>
 	(function(document){
 		
 		var sectorMove = {
 			init: function(){
+				var allEl = this.returnEl();
+
 				if (typeof(Promise) === 'function') {
-					this.setMoveInit();
+					this.setMoveInit(allEl.leftTop, allEl.leftBottom, allEl.rightTop, allEl.rightBottom);
 				}else{
 					alert('请更换浏览器再进行浏览。')
 				}
-			},
-			setMoveInit: function(){
-				var oLeftTop = this.getEl('.leftTop');
-				var leftBottom = this.getEl('.leftBottom');
-				var rightTop = this.getEl('.rightTop');
-				var rightBottom = this.getEl('.rightBottom');
 
-				this.moveProcess(leftBottom, rightTop, rightBottom);
+				this.bindEvent();
+			},
+			timer: null,
+			bindEvent: function(){
+				var resetBtn = this.getEl('.resetBtn');
+				var startBtn = this.getEl('.startBtn');
+				var endBtn = this.getEl('.endBtn');
+
+				var allEl = this.returnEl();
+
+				resetBtn.onclick = function(){
+					this.resetPosition(allEl.leftTop, allEl.leftBottom, allEl.rightTop, allEl.rightBottom);
+				}.bind(this);
+
+				startBtn.onclick = function(){
+					this.setMoveInit(allEl.leftTop, allEl.leftBottom, allEl.rightTop, allEl.rightBottom);
+				}.bind(this);
+
+				endBtn.onclick = function(){
+					this.endMove(allEl.leftTop, allEl.leftBottom, allEl.rightTop, allEl.rightBottom);
+				}.bind(this);
+			},
+			resetPosition: function(leftTop, leftBottom, rightTop, rightBottom){
+				if(leftTop.classList.contains('leftTopEnd')){
+					leftTop.classList.remove('leftTopEnd');
+				}
+
+				leftBottom.classList.remove('leftBottomMove');
+				rightTop.classList.remove('rightTopMove');
+				rightBottom.classList.remove('rightBottomMove');
+
+				leftBottom.style.display = 'none';
+				rightTop.style.display = 'none';
+				rightBottom.style.display = 'none';
+
+				clearTimeout(this.timer);
+				this.timer = null;
+			},
+			setMoveInit: function(leftTop, leftBottom, rightTop, rightBottom){
+				if((!leftTop.classList.contains('leftTopEnd')) && !this.timer){	
+					this.moveProcess(leftBottom, rightTop, rightBottom);	
+				}
+			},
+			endMove: function(leftTop, leftBottom, rightTop, rightBottom){
+				this.resetPosition(leftTop, leftBottom, rightTop, rightBottom);
+				leftTop.classList.add('leftTopEnd');
 			},
 			moveProcess: function(leftBottom, rightTop, rightBottom){
 				//1
+				leftBottom.style.display = 'block';
 				leftBottom.classList.add('leftBottomMove');
 
-				var timerOnePromise = new Promise(function(resolve, reject) {
+				var timerOnePromise = new Promise(function(resolve, reject){
 					this.moveProcessOne(resolve,rightTop);
 				}.bind(this));
 
@@ -190,22 +240,37 @@
 
 			},
 			moveProcessOne: function(resolve,rightTop){
-				var timer = setTimeout(function(){
+				this.timer = setTimeout(function(){
 					//2
 					rightTop.style.display = 'block';
 					rightTop.classList.add('rightTopMove');
-					clearTimeout(timer);
-				
+					clearTimeout(this.timer);
+					this.timer = null;
+
 					resolve();
-				},1000);
+				}.bind(this),1000);
 			},
 			moveProcessTwo: function(rightBottom){
-				var timer = setTimeout(function(){
+				this.timer = setTimeout(function(){
 					//3
 					rightBottom.style.display = 'block';
 					rightBottom.classList.add('rightBottomMove');
-					clearTimeout(timer);
+					clearTimeout(this.timer);
+					this.timer = null;
 				},1200);
+			},
+			returnEl: function(){
+				var leftTop = this.getEl('.leftTop');
+				var leftBottom = this.getEl('.leftBottom');
+				var rightTop = this.getEl('.rightTop');
+				var rightBottom = this.getEl('.rightBottom');
+
+				return {
+					leftTop: leftTop,
+					leftBottom: leftBottom,
+					rightTop: rightTop,
+					rightBottom: rightBottom,
+				};
 			},
 			getEl: function(el){
 				return document.querySelector(el);
