@@ -175,18 +175,16 @@
 				if (typeof(Promise) === 'function') {
 					this.setMoveInit(allEl.leftTop, allEl.leftBottom, allEl.rightTop, allEl.rightBottom);
 				}else{
-					alert('请升级当前浏览器。')
+					alert('请升级当前浏览器版本');
 				}
 
-				this.bindEvent();
+				this.bindEvent(allEl);
 			},
 			timer: null,
-			bindEvent: function(){
+			bindEvent: function(allEl){
 				var resetBtn = this.getEl('.resetBtn');
 				var startBtn = this.getEl('.startBtn');
 				var endBtn = this.getEl('.endBtn');
-
-				var allEl = this.returnEl();
 
 				resetBtn.onclick = function(){
 					this.resetPosition(allEl.leftTop, allEl.leftBottom, allEl.rightTop, allEl.rightBottom);
@@ -264,7 +262,7 @@
 				var leftBottom = this.getEl('.leftBottom');
 				var rightTop = this.getEl('.rightTop');
 				var rightBottom = this.getEl('.rightBottom');
-
+				console.log(window.length++);
 				return {
 					leftTop: leftTop,
 					leftBottom: leftBottom,
