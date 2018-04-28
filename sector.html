@@ -166,40 +166,40 @@
 	<input type="button" class="endBtn" value="end">
 	
 	<script>
-	(function(document){
+	(function(document) {
 		
 		var sectorMove = {
-			init: function(){
+			init: function() {
 				var allEl = this.returnEl();
 
 				if (typeof(Promise) === 'function') {
 					this.setMoveInit(allEl.leftTop, allEl.leftBottom, allEl.rightTop, allEl.rightBottom);
-				}else{
+				} else {
 					alert('请升级当前浏览器版本');
 				}
 
 				this.bindEvent(allEl);
 			},
 			timer: null,
-			bindEvent: function(allEl){
+			bindEvent: function(allEl) {
 				var resetBtn = this.getEl('.resetBtn');
 				var startBtn = this.getEl('.startBtn');
 				var endBtn = this.getEl('.endBtn');
 
-				resetBtn.onclick = function(){
+				resetBtn.onclick = function() {
 					this.resetPosition(allEl.leftTop, allEl.leftBottom, allEl.rightTop, allEl.rightBottom);
 				}.bind(this);
 
-				startBtn.onclick = function(){
+				startBtn.onclick = function() {
 					this.setMoveInit(allEl.leftTop, allEl.leftBottom, allEl.rightTop, allEl.rightBottom);
 				}.bind(this);
 
-				endBtn.onclick = function(){
+				endBtn.onclick = function() {
 					this.endMove(allEl.leftTop, allEl.leftBottom, allEl.rightTop, allEl.rightBottom);
 				}.bind(this);
 			},
-			resetPosition: function(leftTop, leftBottom, rightTop, rightBottom){
-				if(leftTop.classList.contains('leftTopEnd')){
+			resetPosition: function(leftTop, leftBottom, rightTop, rightBottom) {
+				if (leftTop.classList.contains('leftTopEnd')) {
 					leftTop.classList.remove('leftTopEnd');
 				}
 
@@ -214,31 +214,31 @@
 				clearTimeout(this.timer);
 				this.timer = null;
 			},
-			setMoveInit: function(leftTop, leftBottom, rightTop, rightBottom){
-				if((!leftTop.classList.contains('leftTopEnd')) && !this.timer){	
+			setMoveInit: function(leftTop, leftBottom, rightTop, rightBottom) {
+				if ((!leftTop.classList.contains('leftTopEnd')) && !this.timer) {	
 					this.moveProcess(leftBottom, rightTop, rightBottom);	
 				}
 			},
-			endMove: function(leftTop, leftBottom, rightTop, rightBottom){
+			endMove: function(leftTop, leftBottom, rightTop, rightBottom) {
 				this.resetPosition(leftTop, leftBottom, rightTop, rightBottom);
 				leftTop.classList.add('leftTopEnd');
 			},
-			moveProcess: function(leftBottom, rightTop, rightBottom){
+			moveProcess: function(leftBottom, rightTop, rightBottom) {
 				//1
 				leftBottom.style.display = 'block';
 				leftBottom.classList.add('leftBottomMove');
 
-				var timerOnePromise = new Promise(function(resolve, reject){
+				var timerOnePromise = new Promise(function(resolve, reject) {
 					this.moveProcessOne(resolve,rightTop);
 				}.bind(this));
 
-				timerOnePromise.then(function(){
+				timerOnePromise.then(function() {
 					this.moveProcessTwo(rightBottom);
 				}.bind(this));
 
 			},
-			moveProcessOne: function(resolve,rightTop){
-				this.timer = setTimeout(function(){
+			moveProcessOne: function(resolve,rightTop) {
+				this.timer = setTimeout(function() {
 					//2
 					rightTop.style.display = 'block';
 					rightTop.classList.add('rightTopMove');
@@ -248,8 +248,8 @@
 					resolve();
 				}.bind(this),1000);
 			},
-			moveProcessTwo: function(rightBottom){
-				this.timer = setTimeout(function(){
+			moveProcessTwo: function(rightBottom) {
+				this.timer = setTimeout(function() {
 					//3
 					rightBottom.style.display = 'block';
 					rightBottom.classList.add('rightBottomMove');
@@ -257,7 +257,7 @@
 					this.timer = null;
 				},1200);
 			},
-			returnEl: function(){
+			returnEl: function() {
 				var leftTop = this.getEl('.leftTop');
 				var leftBottom = this.getEl('.leftBottom');
 				var rightTop = this.getEl('.rightTop');
@@ -270,7 +270,7 @@
 					rightBottom: rightBottom,
 				};
 			},
-			getEl: function(el){
+			getEl: function(el) {
 				return document.querySelector(el);
 			}
 		};
